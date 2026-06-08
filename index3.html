@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kesar | AI System</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:Orbitron;color:white}
+
+body{background:black;overflow-x:hidden}
+
+/* 🤖 AI BACKGROUND */
+
+body::before{
+content:"";
+position:fixed;
+width:100%;
+height:100%;
+background:url("https://images.unsplash.com/photo-1677442135136-760c813028c0") center/cover no-repeat;
+filter:brightness(0.3);
+z-index:-2;
+}
+
+/* 🌧 RAIN */
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+z-index:-1;
+}
+
+/* HERO */
+
+.hero{
+height:100vh;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+text-align:center;
+backdrop-filter:blur(10px);
+}
+
+/* PHOTO */
+
+.hero img{
+width:170px;
+border-radius:50%;
+border:3px solid cyan;
+box-shadow:0 0 30px cyan;
+animation:glow 3s infinite alternate;
+}
+
+@keyframes glow{
+from{box-shadow:0 0 10px cyan}
+to{box-shadow:0 0 40px blue}
+}
+
+/* NAME */
+
+h1{
+font-size:3rem;
+letter-spacing:5px;
+background:linear-gradient(to right,cyan,blue);
+-webkit-background-clip:text;
+color:transparent;
+}
+
+/* THINKING DOTS */
+
+.thinking::after{
+content:'';
+animation:dots 2s infinite;
+}
+
+@keyframes dots{
+0%{content:''}
+33%{content:'.'}
+66%{content:'..'}
+100%{content:'...'}
+}
+
+/* 🌐 LINKS */
+
+.links{
+margin-top:20px;
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:15px;
+}
+
+.links a{
+padding:12px 22px;
+border-radius:30px;
+border:1px solid cyan;
+color:cyan;
+text-decoration:none;
+transition:.3s;
+}
+
+.links a:hover{
+background:cyan;
+color:black;
+box-shadow:0 0 25px cyan;
+transform:scale(1.1);
+}
+
+/* 🧬 SKILLS */
+
+.skills{
+padding:100px 20px;
+text-align:center;
+}
+
+.skill-box{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:25px;
+margin-top:40px;
+}
+
+.skill{
+padding:25px;
+border-radius:15px;
+background:rgba(255,255,255,0.05);
+border:1px solid rgba(255,255,255,0.1);
+transition:.4s;
+}
+
+.skill:hover{
+transform:translateY(-10px);
+box-shadow:0 0 25px cyan;
+}
+
+.bar{
+height:6px;
+background:#111;
+margin-top:10px;
+border-radius:20px;
+overflow:hidden;
+}
+
+.bar span{
+display:block;
+height:100%;
+background:linear-gradient(to right,cyan,blue);
+animation:load 2s;
+}
+
+@keyframes load{
+from{width:0}
+}
+
+</style>
+</head>
+
+<body>
+
+<canvas id="rain"></canvas>
+
+<section class="hero">
+
+<img src="kesar.jpg">
+
+<h1>KESAR</h1>
+
+<h3>AI DEVELOPER <span class="thinking"></span></h3>
+
+<div class="links">
+
+<a href="https://github.com/yourusername">GitHub</a>
+<a href="https://linkedin.com/in/yourusername">LinkedIn</a>
+<a href="https://instagram.com/yourusername">Instagram</a>
+<a href="https://x.com/yourusername">Twitter</a>
+<a href="https://your-portfolio-link">Website</a>
+
+</div>
+
+</section>
+
+<section class="skills">
+
+<h2>CORE SKILLS</h2>
+
+<div class="skill-box">
+
+<div class="skill">HTML<div class="bar"><span style="width:95%"></span></div></div>
+<div class="skill">CSS<div class="bar"><span style="width:90%"></span></div></div>
+<div class="skill">JavaScript<div class="bar"><span style="width:85%"></span></div></div>
+<div class="skill">Python<div class="bar"><span style="width:75%"></span></div></div>
+<div class="skill">C<div class="bar"><span style="width:70%"></span></div></div>
+<div class="skill">Git & GitHub<div class="bar"><span style="width:80%"></span></div></div>
+
+</div>
+
+</section>
+
+<script>
+
+/* 🌧 RAIN SYSTEM */
+
+const canvas = document.getElementById("rain");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let rain = [];
+
+for(let i=0;i<500;i++){
+rain.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+l:Math.random()*20,
+v:Math.random()*5
+});
+}
+
+function drawRain(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.strokeStyle="cyan";
+
+rain.forEach(r=>{
+ctx.beginPath();
+ctx.moveTo(r.x,r.y);
+ctx.lineTo(r.x,r.y+r.l);
+ctx.stroke();
+
+r.y+=r.v;
+
+if(r.y>canvas.height){
+r.y=0;
+}
+});
+
+requestAnimationFrame(drawRain);
+}
+
+drawRain();
+
+</script>
+
+</body>
+</html>
