@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kesar Nano Portfolio</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,sans-serif}
+
+body{
+background:#000;
+color:#fff;
+overflow-x:hidden;
+}
+
+/* 🧬 NANO CANVAS */
+#nano{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:9999;
+background:#000;
+}
+
+/* 🌧 RAIN (hidden first) */
+.rain{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;opacity:0;transition:2s}
+
+/* DROP */
+.drop{
+position:absolute;
+bottom:100%;
+width:2px;
+height:80px;
+background:linear-gradient(transparent,cyan);
+animation:fall linear infinite;
+opacity:.7;
+}
+
+@keyframes fall{to{transform:translateY(120vh)}}
+
+/* PAGE HIDDEN INIT */
+.main{
+opacity:0;
+transform:scale(1.2);
+transition:1.5s;
+}
+
+/* GLASS */
+section{
+padding:70px 60px;
+margin:40px;
+background:rgba(0,0,0,.4);
+backdrop-filter:blur(12px);
+border-radius:15px;
+text-align:center;
+}
+
+/* NAV */
+nav{
+display:flex;
+justify-content:space-between;
+padding:20px 60px;
+background:rgba(0,0,0,.6);
+position:sticky;
+top:0;
+}
+
+/* HERO */
+.hero{
+display:flex;
+justify-content:space-between;
+align-items:center;
+min-height:100vh;
+padding:80px 60px;
+}
+
+.hero img{
+width:260px;
+border-radius:50%;
+border:5px solid cyan;
+box-shadow:0 0 30px cyan;
+}
+
+/* BOXES */
+.box-container{
+display:flex;
+gap:25px;
+flex-wrap:wrap;
+justify-content:center;
+}
+
+.box{
+padding:25px 40px;
+border-radius:12px;
+font-weight:bold;
+transition:.4s;
+}
+
+.box:hover{transform:scale(1.1)}
+
+/* COLORS */
+.maroon{background:#800000}
+.black{background:#2f3640}
+.purple{background:linear-gradient(45deg,#667eea,#764ba2)}
+.python{background:#f39c12}
+.cpp{background:#2980b9}
+.html{background:#e44d26}
+.prompt{background:#16a085}
+
+/* LINKS */
+.links a{
+display:block;
+width:220px;
+margin:12px auto;
+padding:12px;
+background:#2f3640;
+border-radius:8px;
+text-decoration:none;
+color:#fff;
+transition:.3s;
+}
+.links a:hover{background:#764ba2;transform:scale(1.1)}
+</style>
+</head>
+
+<body>
+
+<canvas id="nano"></canvas>
+
+<div class="main">
+
+<div class="rain"></div>
+
+<nav>
+<h2>Kesar</h2>
+<ul><li>About</li><li>Skills</li><li>Contact</li></ul>
+</nav>
+
+<div class="hero">
+<div>
+<h1>Hello I'm<br>Kesar Sooryavanshi</h1>
+<p>BTech Student • Tech Enthusiast • Creator</p>
+</div>
+<img src="kesar01.jpeg">
+</div>
+
+<section>
+<h2>About Me</h2>
+<p>Hi! I’m Kesar Sooryavanshi, a BTech student passionate about technology and coding.</p>
+</section>
+
+<section>
+<h2>My Skills</h2>
+<div class="box-container">
+<div class="box maroon">Problem Solving</div>
+<div class="box purple">Leadership</div>
+<div class="box black">Time Management</div>
+<div class="box maroon">Communication</div>
+<div class="box purple">Teamwork</div>
+<div class="box black">Analytical Thinking</div>
+</div>
+</section>
+
+<section>
+<h2>Programming Languages</h2>
+<div class="box-container">
+<div class="box python">Basic Python</div>
+<div class="box cpp">Basic C++</div>
+<div class="box html">HTML</div>
+<div class="box prompt">Good in Prompting</div>
+</div>
+</section>
+
+<section class="links">
+<h2>Connect With Me</h2>
+<a href="https://www.instagram.com/sooryavanshii_kesar">Instagram</a>
+<a href="https://www.linkedin.com/in/kesar-sooryavanshi-480b39362">LinkedIn</a>
+<a href="https://github.com/kesar-sooryavanshi">GitHub</a>
+<a href="https://x.com/kesar319889">Twitter</a>
+<a href="https://www.commudle.com/users/9915487ff989ff52d72c0128b73c5b5c">Commudle</a>
+</section>
+
+</div>
+
+<script>
+/* 🧬 NANO ASSEMBLY */
+const canvas = document.getElementById("nano");
+const ctx = canvas.getContext("2d");
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+
+let particles=[];
+for(let i=0;i<1600;i++){
+particles.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+tx:canvas.width/2,
+ty:canvas.height/2
+});
+}
+
+function animate(){
+ctx.fillStyle="rgba(0,0,0,.2)";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+particles.forEach(p=>{
+p.x+=(p.tx-p.x)*0.02;
+p.y+=(p.ty-p.y)*0.02;
+
+ctx.fillStyle="cyan";
+ctx.fillRect(p.x,p.y,2,2);
+});
+requestAnimationFrame(animate);
+}
+animate();
+
+/* 💥 REVEAL SITE */
+setTimeout(()=>{
+document.querySelector(".main").style.opacity=1;
+document.querySelector(".main").style.transform="scale(1)";
+canvas.style.opacity=0;
+setTimeout(()=>canvas.style.display="none",1500);
+startRain();
+},3500);
+
+/* 🌧 RAIN */
+function startRain(){
+const rain=document.querySelector('.rain');
+rain.style.opacity=1;
+for(let i=0;i<140;i++){
+let drop=document.createElement("div");
+drop.classList.add("drop");
+drop.style.left=Math.random()*100+"vw";
+drop.style.animationDuration=0.6+Math.random()*0.8+"s";
+rain.appendChild(drop);
+}
+}
+</script>
+
+</body>
+</html>
