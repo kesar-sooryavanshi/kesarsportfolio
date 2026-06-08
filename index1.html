@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Kesar AI Panel</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+margin:0;
+background:#05070d;
+color:#00f0ff;
+font-family:Orbitron;
+overflow:hidden;
+}
+
+/* NEURAL BACKGROUND */
+
+canvas{
+position:fixed;
+z-index:-1;
+}
+
+/* LAYOUT */
+
+.container{
+display:flex;
+height:100vh;
+backdrop-filter:blur(6px);
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:260px;
+background:rgba(255,255,255,0.03);
+padding:20px;
+text-align:center;
+border-right:1px solid rgba(0,255,255,0.2);
+}
+
+.sidebar img{
+width:120px;
+border-radius:50%;
+border:2px solid cyan;
+box-shadow:0 0 20px cyan;
+}
+
+/* STATUS LED */
+
+.status{
+margin-top:10px;
+color:#00ff9c;
+animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+50%{opacity:0.3}
+}
+
+/* MAIN PANEL */
+
+.main{
+flex:1;
+padding:30px;
+}
+
+/* TABS */
+
+.tabs button{
+background:none;
+border:1px solid cyan;
+color:cyan;
+padding:10px 18px;
+margin-right:10px;
+cursor:pointer;
+}
+
+.tabs button:hover{
+background:cyan;
+color:black;
+}
+
+/* SKILL RADIAL */
+
+.circle{
+width:130px;
+display:inline-block;
+margin:20px;
+}
+
+svg{
+transform:rotate(-90deg);
+}
+
+circle{
+fill:none;
+stroke-width:8;
+stroke:#10222b;
+}
+
+.progress{
+stroke:#00f0ff;
+stroke-dasharray:314;
+stroke-dashoffset:70;
+}
+
+/* SCAN LINE */
+
+.scan{
+position:fixed;
+width:100%;
+height:2px;
+background:rgba(0,255,255,0.3);
+animation:scan 4s linear infinite;
+}
+
+@keyframes scan{
+0%{top:0}
+100%{top:100%}
+}
+
+</style>
+</head>
+
+<body>
+
+<canvas id="bg"></canvas>
+<div class="scan"></div>
+
+<div class="container">
+
+<div class="sidebar">
+
+<img src="kesar01.jpeg">
+
+<h2>Kesar</h2>
+<div class="status">● SYSTEM ACTIVE</div>
+
+<br>
+
+<a href="https://www.instagram.com/sooryavanshii_kesar" target="_blank">INSTAGRAM</a><br>
+<a href="https://www.linkedin.com/in/kesar-sooryavanshi-480b39362" target="_blank">LINKEDIN</a><br>
+<a href="https://github.com/kesar-sooryavanshi" target="_blank">GITHUB</a><br>
+<a href="https://x.com/kesar319889" target="_blank">TWITTER</a><br>
+<a href="https://www.commudle.com/users/9915487ff989ff52d72c0128b73c5b5c" target="_blank">COMMUDLE</a>
+
+</div>
+
+<div class="main">
+
+<div class="tabs">
+<button onclick="show('about')">ABOUT</button>
+<button onclick="show('skills')">SKILLS</button>
+</div>
+
+<div id="content">
+<h2>AI PROFILE</h2>
+<p>BTech student building next-gen software systems.</p>
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+/* NEURAL BACKGROUND */
+
+const c=document.getElementById("bg");
+const ctx=c.getContext("2d");
+
+c.width=innerWidth;
+c.height=innerHeight;
+
+let particles=[];
+
+for(let i=0;i<120;i++){
+particles.push({
+x:Math.random()*c.width,
+y:Math.random()*c.height
+});
+}
+
+function draw(){
+
+ctx.clearRect(0,0,c.width,c.height);
+
+particles.forEach(p=>{
+ctx.fillStyle="#00f0ff";
+ctx.fillRect(p.x,p.y,2,2);
+
+particles.forEach(p2=>{
+let dx=p.x-p2.x;
+let dy=p.y-p2.y;
+let dist=Math.sqrt(dx*dx+dy*dy);
+
+if(dist<120){
+ctx.strokeStyle="rgba(0,255,255,0.1)";
+ctx.beginPath();
+ctx.moveTo(p.x,p.y);
+ctx.lineTo(p2.x,p2.y);
+ctx.stroke();
+}
+});
+
+});
+
+requestAnimationFrame(draw);
+}
+
+draw();
+
+/* TABS */
+
+function show(section){
+
+if(section==="skills"){
+content.innerHTML=`
+<div class="circle">
+<svg width="120" height="120">
+<circle cx="60" cy="60" r="50"/>
+<circle class="progress" cx="60" cy="60" r="50"/>
+</svg>
+PYTHON
+</div>
+`;
+}
+
+}
+
+</script>
+
+</body>
+</html>
